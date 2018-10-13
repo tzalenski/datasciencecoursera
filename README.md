@@ -1,2 +1,2 @@
 # datasciencecoursera
-Repositoty for week 4 of Data Scientist's Toolbox
+Repository for week 4 of Data Scientist's Toolbox
