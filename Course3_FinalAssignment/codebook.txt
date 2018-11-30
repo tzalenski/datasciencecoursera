@@ -1,0 +1,98 @@
+Notes: 
+ 1. The following variablea are averages for the specified subject-activity observations
+ 2. Variables that begin with 't' are time domain signals that were captured at
+    a constant rate of 50 Hz, then filtered using a median filter and a 3rd order
+	low pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
+ 3. Variables that contain 'Acc' come from the phone's accelerometer. These 
+    signals were then separated into body and gravity acceleration signals 
+    (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter 
+    with a corner frequency of 0.3 Hz. 
+  4. Variables that contain 'Gyro' come from the phone's gyroscope  
+  5. X,Y,Z are axis/direction labels 
+  6. Body linear acceleration and angular velocity were differentiated in time to
+     obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the 
+     magnitude of these three-dimensional signals were calculated using the Euclidean 
+     norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+  7. Variables that begin with 'f' come from a frequency domain Fast Fourier 
+     Transform (FFT) that was applied to some of these signals producing;
+ 	 fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag,
+	 fBodyGyroMag, fBodyGyroJerkMag.  
+  8. The experiments/observations have been carried out with a group of 30
+     volunteers between [19-48] years of age. Each person performed six activities 
+     (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) 
+     wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded 
+     accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial 
+     angular velocity at a constant rate of 50Hz.   
+  9. The acceleration signal from the smartphone accelerometer X axis in standard
+     gravity units 'g', and have been normalized and bounded within [-1,1]  
+ 10. The angular velocity measurement units are radians/second, and have been
+     normalized and bounded within [-1,1]  
+
+ 
+"tBodyAcc-mean()-X",
+"tBodyAcc-mean()-Y",
+"tBodyAcc-mean()-Z",
+"tBodyAcc-std()-X",
+"tBodyAcc-std()-Y",
+"tBodyAcc-std()-Z",
+"tGravityAcc-mean()-X",
+"tGravityAcc-mean()-Y",
+"tGravityAcc-mean()-Z",
+"tGravityAcc-std()-X",
+"tGravityAcc-std()-Y",
+"tGravityAcc-std()-Z",
+"tBodyAccJerk-mean()-X",
+"tBodyAccJerk-mean()-Y",
+"tBodyAccJerk-mean()-Z",
+"tBodyAccJerk-std()-X",
+"tBodyAccJerk-std()-Y",
+"tBodyAccJerk-std()-Z",
+"tBodyGyro-mean()-X",
+"tBodyGyro-mean()-Y",
+"tBodyGyro-mean()-Z",
+"tBodyGyro-std()-X",
+"tBodyGyro-std()-Y",
+"tBodyGyro-std()-Z",
+"tBodyGyroJerk-mean()-X",
+"tBodyGyroJerk-mean()-Y",
+"tBodyGyroJerk-mean()-Z",
+"tBodyGyroJerk-std()-X",
+"tBodyGyroJerk-std()-Y",
+"tBodyGyroJerk-std()-Z",
+"tBodyAccMag-mean()",
+"tBodyAccMag-std()",
+"tGravityAccMag-mean()",
+"tGravityAccMag-std()",
+"tBodyAccJerkMag-mean()",
+"tBodyAccJerkMag-std()",
+"tBodyGyroMag-mean()",
+"tBodyGyroMag-std()",
+"tBodyGyroJerkMag-mean()",
+"tBodyGyroJerkMag-std()",
+"fBodyAcc-mean()-X",
+"fBodyAcc-mean()-Y",
+"fBodyAcc-mean()-Z",
+"fBodyAcc-std()-X",
+"fBodyAcc-std()-Y",
+"fBodyAcc-std()-Z",
+"fBodyAccJerk-mean()-X",
+"fBodyAccJerk-mean()-Y",
+"fBodyAccJerk-mean()-Z",
+"fBodyAccJerk-std()-X",
+"fBodyAccJerk-std()-Y",
+"fBodyAccJerk-std()-Z",
+"fBodyGyro-mean()-X",
+"fBodyGyro-mean()-Y",
+"fBodyGyro-mean()-Z",
+"fBodyGyro-std()-X",
+"fBodyGyro-std()-Y",
+"fBodyGyro-std()-Z",
+"fBodyAccMag-mean()",
+"fBodyAccMag-std()",
+"fBodyBodyAccJerkMag-mean()",
+"fBodyBodyAccJerkMag-std()",
+"fBodyBodyGyroMag-mean()",
+"fBodyBodyGyroMag-std()",
+"fBodyBodyGyroJerkMag-mean()",
+"fBodyBodyGyroJerkMag-std()"
+
