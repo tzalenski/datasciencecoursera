@@ -1,0 +1,119 @@
+---
+title: 'Practical Machine Learning Assignment: Predicting Class of Excercise'
+author: "Tom Zalenski"
+date: "March 23, 2019"
+output:
+  html_document: null
+  word_document: default
+  keep_md: yes
+  pdf_document: default
+  fig_width: 9
+---
+    
+# Synopsis:
+
+The goal of this report is to use raw data from sensors worn by the user and attached to the equipment, to predict the exercise class [A,B,C,D,E].
+The sensors are:
+
+    1.  roll, pitch & yaw of users belt
+    2.  X, Y & Z axis from gyro on users belt
+    3.  X, Y & Z axis from accelerometer on users belt     
+    4.  X, Y & Z axis from magnets on users belt
+    5.  roll, pitch & yaw of users arm
+    6.  X, Y & Z axis from gyro on users arm
+    7.  X, Y & Z axis from accelerometer on users arm
+    8.  X, Y & Z axis from magnets on users arm
+    9.  roll, pitch & yaw of dumbbell
+    10. X, Y & Z axis from gyro on dumbbell
+    11. X, Y & Z axis from accelerometer on dumbbell
+    12. X, Y & Z axis from magnets on dumbbell
+    13. roll, pitch & yaw of users forearm
+    14. X, Y & Z axis from gyro on users forearm
+    15. X, Y & Z axis from accelerometer on users forearm
+    16. X, Y & Z axis from magnets on users forearm
+
+
+## Loading the source data:
+
+```{r, message=FALSE, results=FALSE, cache=TRUE }
+library(dplyr)
+library(caret)
+
+train_df <- read.csv( "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" )
+test_df  <- read.csv( "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" )
+```
+
+## Preprocessing the data:
+
+Note, the train_df data has the outcome variable "classe", while the test_df does not.
+For the purpose of model building and testing, a subset of data containing the outcome, must be created. 
+The following code subdivides the original training data into two subsets:
+ 
+```{r, cache=TRUE }
+set.seed(3433)
+inTrain  = createDataPartition( train_df$classe, p = 3/4)[[1]]
+training = train_df[ inTrain,]
+testing  = train_df[-inTrain,]
+```
+
+This section of code creates a formula with "classe" as the outcome and all raw sensor data as predictors:
+
+```{r, cache=TRUE }
+raw_sensor_names <- c("roll_belt",         "pitch_belt",        "yaw_belt",          
+                      "gyros_belt_x",      "gyros_belt_y",      "gyros_belt_z",        
+                      "accel_belt_x",      "accel_belt_y",      "accel_belt_z",     
+                      "magnet_belt_x",     "magnet_belt_y",     "magnet_belt_z",      
+                      "roll_arm",          "pitch_arm",         "yaw_arm",                           
+                      "gyros_arm_x",       "gyros_arm_y",       "gyros_arm_z",       
+                      "accel_arm_x",       "accel_arm_y",       "accel_arm_z",        
+                      "magnet_arm_x",      "magnet_arm_y",      "magnet_arm_z",                 
+                      "roll_dumbbell",     "pitch_dumbbell",    "yaw_dumbbell",        
+                      "gyros_dumbbell_x",  "gyros_dumbbell_y",  "gyros_dumbbell_z",  
+                      "accel_dumbbell_x",  "accel_dumbbell_y",  "accel_dumbbell_z", 
+                      "magnet_dumbbell_x", "magnet_dumbbell_y", "magnet_dumbbell_z", 
+                      "roll_forearm",      "pitch_forearm",     "yaw_forearm",                 
+                      "gyros_forearm_x",   "gyros_forearm_y",   "gyros_forearm_z",   
+                      "accel_forearm_x",   "accel_forearm_y",   "accel_forearm_z",           
+                      "magnet_forearm_x",  "magnet_forearm_y",  "magnet_forearm_z" )
+
+raw_sensor_variables <- paste( raw_sensor_names, collapse="+")
+f <- paste("classe ~", raw_sensor_variables )
+```
+
+Now multiple classification models can be tried:
+
+```{r, results=FALSE, cache=TRUE }
+mod_rf  <- train( as.formula(f), data = training, method = "rf"  )
+mod_gbm <- train( as.formula(f), data = training, method = "gbm" )
+mod_lda <- train( as.formula(f), data = training, method = "lda" )
+
+test_pred_rf  <- predict( mod_rf,  testing )
+test_pred_gbm <- predict( mod_gbm, testing )
+test_pred_lda <- predict( mod_lda, testing )
+
+test_predDF <- data.frame( pred_rf  = test_pred_rf,
+                           pred_gbm = test_pred_gbm,
+                           pred_lda = test_pred_lda, class = testing$classe )
+test_combModFit <- train( class ~ ., method = "rf", data = test_predDF )
+test_combPred   <- predict( test_combModFit, test_predDF )
+```
+
+## Results and Summary:
+
+```{r, cache=TRUE }
+confusionMatrix( test_combPred, testing$classe )
+```
+
+The overall accuracy using the training data exceeds 99%. Now to use evaluate the actual testing data and predict the excerise class:
+
+```{r, cache=TRUE }
+final_test_pred_rf  <- predict( mod_rf,  test_df )
+final_test_pred_gbm <- predict( mod_gbm, test_df )
+final_test_pred_lda <- predict( mod_lda, test_df )
+final_test_predDF   <- data.frame( pred_rf  = final_test_pred_rf,
+                                   pred_gbm = final_test_pred_gbm, 
+                                   pred_lda = final_test_pred_lda )
+final_test_combPred <- predict( test_combModFit, final_test_predDF )
+final_test_combPred
+```
+
