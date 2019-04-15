@@ -56,8 +56,11 @@ plotHistogram <- function( X, title )   # where X = data vector
 }
 
 par( mfrow = c(1,2) )   # 1 rows and 2 columns
-setwd("C:/DataScience/Course_09/OutlierRejection")
-df <- read.csv( "TestDataWithOutliers.txt", stringsAsFactors = FALSE )
+
+
+filename <- "https://github.com/tzalenski/datasciencecoursera/raw/master/Course_9_Final_Assignment/TestDataWithOutliers.txt"
+
+df <- read.csv( filename, stringsAsFactors=FALSE, header=FALSE )
 origData <- df[,1]   # 1st column
 
 plotHistogram( origData, "Original Data" )  
